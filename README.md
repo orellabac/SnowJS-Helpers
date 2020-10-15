@@ -20,6 +20,8 @@ $$
 
 The tool will map the snipped name to <snippetname>.snippet and replace it.
 
+
+
 So you can write your store procedures, then do 
 ```
 snowsql-helpers file.sql outdir
@@ -29,6 +31,9 @@ and the deploy the modified file.
 
 I hope that helps :)
 
+Installation
+==================
+`npm install -g snowsql-helpers`
 
 Available snippets
 ==================
