@@ -1,0 +1,14 @@
+{
+  "name": "snowjs-helpers",
+  "version": "1.0.0",
+  "description": "Helpers to avoid repeating some plumbing on Snowflake stored procedures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "snowjs-helpers": "./index.js"
+  },
+  "author": "Mauricio Rojas",
+  "license": "MIT"
+}

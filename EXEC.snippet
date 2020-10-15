@@ -1,0 +1,23 @@
+// -------------- EXEC SNIPPET BEGIN --------------
+var _RS, ROW_COUNT, _ROWS, MESSAGE_TEXT, SQLCODE, SQLSTATE, ERROR_HANDLERS, ACTIVITY_COUNT, INTO;
+var fixBind = (arg) => arg instanceof Date && arg.toISOString() || arg || null;
+var fetch = (count,rows,stmt) =>
+    (count && rows.next() && Array.apply(null,Array(stmt.getColumnCount())).map((_,i) => rows.getColumnValue(i + 1))) || [];
+var INTO = () => (ROW_COUNT && fetch(ROW_COUNT,_ROWS,_RS)) || [];
+var EXEC = function (stmt,binds,noCatch) {
+    try {
+        binds = (binds && binds.map(fixBind)) || binds;
+        _RS = snowflake.createStatement({sqlText : stmt,binds : binds});
+        _ROWS = _RS.execute();
+        ROW_COUNT = _RS.getRowCount();
+        ACTIVITY_COUNT = _RS.getNumRowsAffected();
+        return { INTO: () => INTO() };
+    }
+    catch(error) {
+        MESSAGE_TEXT = error.message;
+        SQLCODE = error.code;
+        SQLSTATE = error.state;
+        if (!noCatch && ERROR_HANDLERS) ERROR_HANDLERS(error);
+    }
+};
+// -------------- EXEC SNIPPET END --------------

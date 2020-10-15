@@ -1,0 +1,28 @@
+// -------------- CURSOR SNIPPET BEGIN --------------
+var fetch = (count,rows,stmt) =>
+    (count && rows.next() && Array.apply(null,Array(stmt.getColumnCount())).map((_,i) => rows.getColumnValue(i + 1))) || [];
+var fixBind = (arg) => arg instanceof Date && arg.toISOString() || arg || null;
+var CURSOR = function (stmt,binds) {
+          var rs = {
+          }, rows = {
+          }, row_count = {
+          };
+          this.OPEN = function (usingParams) {
+                try {
+                   if (usingParams) binds = usingParams;
+                   if (binds instanceof Function) binds = binds();
+                   binds = binds && binds.map(fixBind);
+                   if (stmt instanceof Function) stmt = stmt();
+                   rs = snowflake.createStatement({
+                         sqlText : stmt,
+                         binds : binds
+                      });
+                   rows = rs.execute();
+                   rows_count = rs.getRowCount();
+                } catch(error) {
+                   ERROR_HANDLERS && ERROR_HANDLERS(error);
+                }
+             }
+          this.FETCH = () => fetch(row_count,rows,rs);
+       };
+// -------------- CURSOR SNIPPET END --------------
