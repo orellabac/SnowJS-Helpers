@@ -1,9 +1,33 @@
 var fs = require('fs');
 const { connect } = require('http2');
 var path = require('path');
+console.log("SnowJS-Helpers");
+console.log("=================");
+if (process.argv.length < 4)
+{
+    console.log("Usage: snowjs-helpers input-sql-file outdir");
+    process.exit(1);
+}
 var filename = process.argv[2];
 var outdir = process.argv[3];
+try {
+    fs.accessSync(filename,fs.constants.R_OK);
+}
+catch
+{
 
+    console.log("No read access to input file " + filename);
+    process.exit(2);
+}
+
+try {
+    fs.accessSync(outdir,fs.constants.W_OK);
+}
+catch
+{
+    console.log("No write access to " + outdir);
+    process.exit(3);
+}
 
 var only_filename = path.basename(filename);
 var target_file = path.join(outdir,only_filename);
