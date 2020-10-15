@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 var fs = require('fs');
 const { connect } = require('http2');
 var path = require('path');
