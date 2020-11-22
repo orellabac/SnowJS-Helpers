@@ -18,6 +18,8 @@ var EXEC = function (stmt,binds,noCatch) {
         SQLCODE = error.code;
         SQLSTATE = error.state;
         if (!noCatch && ERROR_HANDLERS) ERROR_HANDLERS(error);
+        var newError = Error(`SQLCODE: ${SQLCODE} MESSAGE: ${MESSAGE_TEXT}`)
+		throw newError;
     }
 };
 // -------------- EXEC SNIPPET END --------------
